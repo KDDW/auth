@@ -2,6 +2,7 @@ package main
 
 import (
 	"auth-service/internals/adapters"
+	"auth-service/internals/domain/services"
 	"auth-service/internals/dtos"
 	"auth-service/internals/infra/config"
 	"auth-service/internals/infra/db"
@@ -18,27 +19,17 @@ func main() {
 
 	repositories := adapters.GetRepositories(db)
 
-	realmFound, err := repositories.RealmRepo.GetRealmByCodeRepo("stj")
+	userServices := services.NewUserServices(repositories.UserRepo, repositories.RealmRepo)
 
-	if err != nil {
-		log.Fatal("cannot get realm", err)
-	}
-
-	userFound, err := repositories.UserRepo.GetByEmailAndRealmUserRepo("teste@gmail.com", realmFound.ID)
-
-	if err != nil {
-		log.Fatal("user not found", err)
-	}
-
-	rowsAffected, err := repositories.UserRepo.UpdateUserRepo(userFound.ID, &dtos.UpdateUserDto{
+	err := userServices.CreateUser(&dtos.CreateUserDto{
+		Realm:    "app1",
 		Password: "123456",
+		Email:    "teste2@gmail.com",
 	})
 
 	if err != nil {
-		fmt.Println("cannot update user: ", err)
-	}
-
-	if rowsAffected == 1 {
-		fmt.Println("User successfully updated")
+		log.Fatal(err)
+	} else {
+		fmt.Println("user successfully created")
 	}
 }
