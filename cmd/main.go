@@ -16,3 +16,5 @@ func main() {
 	migrations.Migrate(db)
 	repositories := adapters.GetRepositories(db)
 
+	realmFound, err := repositories.RealmRepo.GetRealmByCodeRepo("stj")
+	if err != nil {
