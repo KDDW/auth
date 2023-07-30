@@ -72,3 +72,49 @@ func (u *UserServices) UpdateUser(id int64, dto *dtos.UpdateUserDto) error {
 
 	return nil
 }
+
+func (u *UserServices) DeleteUser(id int64) error {
+
+	_, err := u.userRepo.DeleteUserRepo(id)
+
+	if err != nil {
+		fmt.Println("cannot delete user: ", err)
+		return errors.New("cannot delete user")
+	}
+
+	return nil
+
+}
+
+func (u *UserServices) GetById(id int64) (*models.User, error) {
+
+	user, err := u.userRepo.GetByIdUserRepo(id)
+
+	if err != nil {
+		fmt.Println("cannot get user by id: ", err)
+		return nil, errors.New("cannot get user")
+	}
+
+	return user, nil
+
+}
+
+func (u *UserServices) GetByEmailAndRealm(email string, realm string) (*models.User, error) {
+
+	realmFound, err := u.realmRepo.GetRealmByCodeRepo(realm)
+
+	if err != nil {
+		fmt.Println("cannot get realm: ", err)
+		return nil, errors.New("realm not found")
+	}
+
+	user, err := u.userRepo.GetByEmailAndRealmUserRepo(email, realmFound.ID)
+
+	if err != nil {
+		fmt.Println("cannot get user by email and realm: ", err)
+		return nil, errors.New("user not found")
+	}
+
+	return user, nil
+
+}

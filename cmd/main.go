@@ -3,10 +3,10 @@ package main
 import (
 	"auth-service/internals/adapters"
 	"auth-service/internals/domain/services"
-	"auth-service/internals/dtos"
 	"auth-service/internals/infra/config"
 	"auth-service/internals/infra/db"
 	"auth-service/internals/infra/db/migrations"
+	"encoding/json"
 	"fmt"
 	"log"
 )
@@ -21,15 +21,17 @@ func main() {
 
 	userServices := services.NewUserServices(repositories.UserRepo, repositories.RealmRepo)
 
-	err := userServices.CreateUser(&dtos.CreateUserDto{
-		Realm:    "app1",
-		Password: "123456",
-		Email:    "teste2@gmail.com",
-	})
+	user, err := userServices.GetByEmailAndRealm("teste2@gmail.com", "app1")
 
 	if err != nil {
 		log.Fatal(err)
-	} else {
-		fmt.Println("user successfully created")
 	}
+
+	jsonUser, err := json.Marshal(user)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%v", string(jsonUser))
 }

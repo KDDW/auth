@@ -11,11 +11,11 @@ import (
 type User struct {
 	bun.BaseModel `bun:"table:users,alias:u"`
 
-	ID        int64     `bun:",pk,autoincrement"`
+	ID        int64     `bun:",pk,autoincrement" json:"id"`
 	Email     string    `json:"email"`
 	Password  string    `json:"password"`
 	RealmID   int64     `json:"realm_id"`
-	Realm     *Realm    `bun:"rel:belongs-to,join:realm_id=id"`
+	Realm     *Realm    `bun:"rel:belongs-to,join:realm_id=id" json:"realm"`
 	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp" json:"created_at"`
 	UpdatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp" json:"updated_at"`
 }

@@ -36,7 +36,7 @@ func (s *BunUserRepository) GetByEmailAndRealmUserRepo(email string, realmID int
 	ctx := context.Background()
 	user := new(models.User)
 
-	err := s.db.NewSelect().Model(user).Where("realm_id = ?", realmID).Where("email = ?", email).Scan(ctx)
+	err := s.db.NewSelect().Model(user).Relation("Realm").Where("realm_id = ?", realmID).Where("email = ?", email).Scan(ctx)
 
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func (s *BunUserRepository) GetByIdUserRepo(id int64) (*models.User, error) {
 	ctx := context.Background()
 	user := new(models.User)
 
-	err := s.db.NewSelect().Model(user).Where("id = ?", id).Scan(ctx)
+	err := s.db.NewSelect().Model(user).Relation("Realm").Where("id = ?", id).Scan(ctx)
 
 	if err != nil {
 		return nil, err
