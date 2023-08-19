@@ -1,7 +1,8 @@
-package adapters
+package bun_repo
 
 import (
 	"auth-service/internals/domain/models"
+	"auth-service/internals/dtos"
 	"context"
 
 	"github.com/uptrace/bun"
@@ -48,4 +49,24 @@ func (s *BunRealmRepository) GetRealmByCodeRepo(code string) (*models.Realm, err
 	}
 
 	return realm, nil
+}
+
+func (s *BunRealmRepository) ListRealmsRepo(dto *dtos.ListRealmsDto) ([]models.Realm, error) {
+
+	ctx := context.Background()
+	realms := make([]models.Realm, 0)
+
+	query := s.db.NewSelect().Model(&realms)
+
+	if dto.Code != "" {
+		query.Where("code = ?", dto.Code)
+	}
+
+	err := query.Scan(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return realms, nil
 }

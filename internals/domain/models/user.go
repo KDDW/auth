@@ -13,6 +13,7 @@ type User struct {
 
 	ID        int64     `bun:",pk,autoincrement" json:"id"`
 	Email     string    `json:"email"`
+	Name      string    `json:"name"`
 	Password  string    `json:"password"`
 	RealmID   int64     `json:"realm_id"`
 	Realm     *Realm    `bun:"rel:belongs-to,join:realm_id=id" json:"realm"`

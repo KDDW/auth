@@ -1,4 +1,4 @@
-package adapters
+package bun_repo
 
 import (
 	"auth-service/internals/domain/models"
@@ -7,6 +7,10 @@ import (
 
 	"github.com/uptrace/bun"
 )
+
+/*
+	implements internals/domain/ports/user-repo
+*/
 
 type BunUserRepository struct {
 	db *bun.DB
@@ -50,7 +54,7 @@ func (s *BunUserRepository) GetByIdUserRepo(id int64) (*models.User, error) {
 	ctx := context.Background()
 	user := new(models.User)
 
-	err := s.db.NewSelect().Model(user).Relation("Realm").Where("id = ?", id).Scan(ctx)
+	err := s.db.NewSelect().Model(user).Relation("Realm").Where("u.id = ?", id).Scan(ctx)
 
 	if err != nil {
 		return nil, err
@@ -97,8 +101,6 @@ func (s *BunUserRepository) UpdateUserRepo(id int64, dto *dtos.UpdateUserDto) (i
 		newUser.HashPassword()
 		query.Set("password = ?", newUser.Password)
 	}
-
-	// query.Set("updated_at = ?", time.Now())
 
 	res, err := query.Exec(ctx)
 

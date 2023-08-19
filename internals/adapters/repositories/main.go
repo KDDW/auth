@@ -1,6 +1,7 @@
-package adapters
+package repositories
 
 import (
+	bun_repo "auth-service/internals/adapters/repositories/bun-repo"
 	"auth-service/internals/domain/ports"
 
 	"github.com/uptrace/bun"
@@ -14,7 +15,7 @@ type Repositories struct {
 func GetRepositories(db *bun.DB) *Repositories {
 
 	return &Repositories{
-		UserRepo:  NewBunUserRepository(db),
-		RealmRepo: NewBunRealmRepository(db),
+		UserRepo:  bun_repo.NewBunUserRepository(db),
+		RealmRepo: bun_repo.NewBunRealmRepository(db),
 	}
 }

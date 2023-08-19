@@ -1,39 +1,43 @@
 package httpserver
 
 import (
-	"fmt"
-	"html"
+	"auth-service/internals/adapters/controllers"
 	"log"
-	"net/http"
 	"os"
+
+	fiber "github.com/gofiber/fiber/v2"
 )
 
-func createHandlers() {
+func CreateServer() *fiber.App {
 
-	http.HandleFunc("/bar", func(w http.ResponseWriter, r *http.Request) {
-		_, err := fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-
-		if err != nil {
-			panic("Cannot write to httpResponseWriter")
-		}
+	app := fiber.New(fiber.Config{
+		AppName:           "KDDW Auth Service",
+		CaseSensitive:     false,
+		EnablePrintRoutes: true,
 	})
+
+	SetupLoggerMiddleware(app)
+
+	return app
 }
 
-func Listen() {
+func Listen(app *fiber.App) {
 
 	port := os.Getenv("PORT")
 
 	if port == "" {
 		port = "3000"
 	}
+	address := ":" + port
 
-	createHandlers()
+	err := app.Listen(address)
 
-	s := http.Server{
-		Addr: ":" + port,
+	if err != nil {
+		log.Fatal("cannot initialize fiber app: ", err)
 	}
+}
 
-	fmt.Println("Server is listenig the port " + port)
-	log.Fatal(s.ListenAndServe())
-
+func RegisterControllers(app *fiber.App, controllers *controllers.Controllers) {
+	registerRealmControllers(app, controllers)
+	registerUsersControllers(app, controllers)
 }
