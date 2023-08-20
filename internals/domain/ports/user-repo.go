@@ -11,4 +11,5 @@ type UserRepository interface {
 	DeleteUserRepo(id int64) (int64, error)
 	GetByIdUserRepo(id int64) (*models.User, error)
 	GetByEmailAndRealmUserRepo(email string, realmID int64) (*models.User, error)
+	ListUsersRepo(dto *dtos.ListUsersDto) ([]models.User, error)
 }

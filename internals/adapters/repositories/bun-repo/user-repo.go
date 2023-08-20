@@ -4,6 +4,7 @@ import (
 	"auth-service/internals/domain/models"
 	"auth-service/internals/dtos"
 	"context"
+	"strconv"
 
 	"github.com/uptrace/bun"
 )
@@ -91,6 +92,10 @@ func (s *BunUserRepository) UpdateUserRepo(id int64, dto *dtos.UpdateUserDto) (i
 		Password: dto.Password,
 	}
 
+	if dto.Email == "" && dto.Password == "" {
+		return 0, nil
+	}
+
 	query := s.db.NewUpdate().Model(&newUser).Where("id = ?", id)
 
 	if dto.Email != "" {
@@ -115,4 +120,60 @@ func (s *BunUserRepository) UpdateUserRepo(id int64, dto *dtos.UpdateUserDto) (i
 	}
 
 	return rowsAffected, nil
+}
+
+func (u *BunUserRepository) ListUsersRepo(dto *dtos.ListUsersDto) ([]models.User, error) {
+
+	ctx := context.Background()
+
+	users := make([]models.User, 0)
+
+	query := u.db.NewSelect().Model(&users).Relation("Realm")
+
+	if dto.Email != "" {
+		query.Where("email = ?", dto.Email)
+	}
+
+	if dto.RealmCode != "" {
+		query.Where("realm.code = ?", dto.RealmCode)
+	}
+
+	var recordsPerPage int
+	var page int
+
+	if dto.RecordsPerPage != "" {
+		recordsPerPageNbr, err := strconv.Atoi(dto.RecordsPerPage)
+		if err != nil {
+			return nil, err
+		}
+		recordsPerPage = recordsPerPageNbr
+	}
+
+	if dto.Page != "" {
+		pageNbr, err := strconv.Atoi(dto.Page)
+		if err != nil {
+			return nil, err
+		}
+		page = pageNbr
+	}
+
+	if recordsPerPage <= 0 {
+		recordsPerPage = 100
+	}
+
+	if page <= 0 {
+		page = 1
+	}
+
+	offset := (page - 1) * recordsPerPage
+
+	query.Limit(recordsPerPage).Offset(offset)
+
+	err := query.Scan(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
 }

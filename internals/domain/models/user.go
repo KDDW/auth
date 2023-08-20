@@ -30,3 +30,8 @@ func (u *User) HashPassword() {
 	}
 	u.Password = string(bytes)
 }
+
+func (u *User) ComparePassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	return err == nil
+}

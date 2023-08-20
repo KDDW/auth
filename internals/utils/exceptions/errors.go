@@ -19,6 +19,8 @@ func getMessageFromCode(code int) string {
 		return "Conflict exception"
 	case 400:
 		return "Bad request exception"
+	case 401:
+		return "Unauthorized exception"
 	case 404:
 		return "Not found exception"
 	case 500:

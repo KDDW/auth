@@ -4,6 +4,6 @@ import (
 	"auth-service/internals/dtos"
 )
 
-func ValidateCreateUserDto(dto *dtos.CreateUserDto) []string {
+func ValidateLoginRequest(dto *dtos.LoginRequestDto) []string {
 	return getErrorsFromValidation(dto)
 }

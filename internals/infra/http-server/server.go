@@ -40,4 +40,5 @@ func Listen(app *fiber.App) {
 func RegisterControllers(app *fiber.App, controllers *controllers.Controllers) {
 	registerRealmControllers(app, controllers)
 	registerUsersControllers(app, controllers)
+	registerAuthControllers(app, controllers)
 }

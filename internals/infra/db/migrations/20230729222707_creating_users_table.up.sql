@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS users (
 	realm_id INTEGER NOT NULL,
 	CONSTRAINT fk_realms FOREIGN KEY (realm_id) REFERENCES realms(id) ON DELETE CASCADE,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	CONSTRAINT unique_user UNIQUE(email, realm_id) 
 );
-
