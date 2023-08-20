@@ -1,10 +1,10 @@
 package services
 
 import (
-	"auth-service/internals/adapters/repositories"
 	auth_services "auth-service/internals/domain/services/auth-services"
 	realm_services "auth-service/internals/domain/services/realm-services"
 	user_services "auth-service/internals/domain/services/user-services"
+	"auth-service/internals/infra/repositories"
 )
 
 type Services struct {

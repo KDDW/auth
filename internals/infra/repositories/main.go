@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	bun_repo "auth-service/internals/adapters/repositories/bun-repo"
 	"auth-service/internals/domain/ports"
+	bun_repo "auth-service/internals/infra/repositories/bun-repo"
 
 	"github.com/uptrace/bun"
 )
