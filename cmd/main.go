@@ -2,12 +2,12 @@ package main
 
 import (
 	"auth-service/internals/adapters/controllers"
-	"auth-service/internals/adapters/repositories"
 	"auth-service/internals/domain/services"
 	"auth-service/internals/infra/config"
 	"auth-service/internals/infra/db"
 	"auth-service/internals/infra/db/migrations"
 	httpserver "auth-service/internals/infra/http-server"
+	"auth-service/internals/infra/repositories"
 	"fmt"
 	"os"
 )
