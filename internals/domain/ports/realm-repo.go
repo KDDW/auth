@@ -8,5 +8,6 @@ import (
 type RealmRepository interface {
 	CreateRealmRepo(realm *models.Realm) error
 	GetRealmByCodeRepo(code string) (*models.Realm, error)
+	GetRealmByIdRepo(id int64) (*models.Realm, error)
 	ListRealmsRepo(dto *dtos.ListRealmsDto) ([]models.Realm, error)
 }

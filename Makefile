@@ -19,3 +19,7 @@ rdb:
 	@docker system prune -f
 	@docker compose up -d
 
+
+
+test:
+	@go test ./... | grep -v "no test files"

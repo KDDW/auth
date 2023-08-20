@@ -10,4 +10,5 @@ func registerRealmControllers(app *fiber.App, controllers *controllers.Controlle
 
 	app.Post("/realms", controllers.RealmController.CreateRealm)
 	app.Get("/realms", controllers.RealmController.ListRealms)
+	app.Get("/realms/:id", controllers.RealmController.GetRealmById)
 }

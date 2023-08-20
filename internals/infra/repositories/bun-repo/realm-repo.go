@@ -44,10 +44,6 @@ func (s *BunRealmRepository) GetRealmByCodeRepo(code string) (*models.Realm, err
 		return nil, err
 	}
 
-	if err != nil {
-		return nil, err
-	}
-
 	return realm, nil
 }
 
@@ -69,4 +65,17 @@ func (s *BunRealmRepository) ListRealmsRepo(dto *dtos.ListRealmsDto) ([]models.R
 	}
 
 	return realms, nil
+}
+
+func (s *BunRealmRepository) GetRealmByIdRepo(id int64) (*models.Realm, error) {
+
+	ctx := context.Background()
+	realm := new(models.Realm)
+	err := s.db.NewSelect().Model(realm).Where("id = ?", id).Scan(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return realm, nil
 }
