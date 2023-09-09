@@ -8,7 +8,9 @@ import (
 
 func registerAuthControllers(app *fiber.App, controllers *controllers.Controllers) {
 
-	app.Post("/auth/login", controllers.AuthController.Login)
-	app.Post("/auth/login/refresh", controllers.AuthController.LoginRefreshToken)
-	app.Post("/auth/token/verify", controllers.AuthController.VerifyToken)
+	router := app.Group("/api")
+
+	router.Post("/auth/login", controllers.AuthController.Login)
+	router.Post("/auth/login/refresh", controllers.AuthController.LoginRefreshToken)
+	router.Post("/auth/token/verify", controllers.AuthController.VerifyToken)
 }

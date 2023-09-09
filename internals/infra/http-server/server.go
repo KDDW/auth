@@ -38,6 +38,9 @@ func Listen(app *fiber.App) {
 }
 
 func RegisterControllers(app *fiber.App, controllers *controllers.Controllers) {
+
+	// add server prefix to all routes
+
 	registerRealmControllers(app, controllers)
 	registerUsersControllers(app, controllers)
 	registerAuthControllers(app, controllers)

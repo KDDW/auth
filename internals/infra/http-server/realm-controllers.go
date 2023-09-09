@@ -8,7 +8,9 @@ import (
 
 func registerRealmControllers(app *fiber.App, controllers *controllers.Controllers) {
 
-	app.Post("/realms", controllers.RealmController.CreateRealm)
-	app.Get("/realms", controllers.RealmController.ListRealms)
-	app.Get("/realms/:id", controllers.RealmController.GetRealmById)
+	router := app.Group("/api")
+
+	router.Post("/realms", controllers.RealmController.CreateRealm)
+	router.Get("/realms", controllers.RealmController.ListRealms)
+	router.Get("/realms/:id", controllers.RealmController.GetRealmById)
 }
