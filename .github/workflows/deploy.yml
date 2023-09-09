@@ -17,7 +17,7 @@ env:
     APP_NAME: portfolio-auth
 
 jobs:
-    test:
+    test_unit:
         runs-on: ubuntu-latest
         steps:
             - name: Check out repository code
