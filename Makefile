@@ -8,6 +8,9 @@ run:
 migrate:
 	@go run cmd/main.go migrate
 
+create-migration:
+	@go run scripts/create-migration-file.go
+
 
 build:
 	@go build -o bin/auth cmd/main.go

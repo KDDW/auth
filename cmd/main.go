@@ -8,7 +8,6 @@ import (
 	"auth-service/internals/infra/db/migrations"
 	httpserver "auth-service/internals/infra/http-server"
 	"auth-service/internals/infra/repositories"
-	"fmt"
 	"os"
 )
 
@@ -21,7 +20,6 @@ func main() {
 		if args[0] == "migrate" {
 			db := db.NewDB()
 			migrations.Migrate(db)
-			fmt.Println("Migrations succesfully applied!")
 			return
 		}
 	}

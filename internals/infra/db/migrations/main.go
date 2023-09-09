@@ -11,11 +11,21 @@ import (
 var Migrations = migrate.NewMigrations()
 
 func Migrate(db *bun.DB) {
+
 	if err := Migrations.DiscoverCaller(); err != nil {
-		panic(err)
+		fmt.Printf("❌ failed to discover caller: %s\n", err.Error())
+		return
 	}
-	InitMigrationTable(db)
-	RunMigrations(db)
+
+	if err := InitMigrationTable(db); err != nil {
+		fmt.Printf("❌ failed to init migration table: %s\n", err.Error())
+		return
+	}
+
+	if err := RunMigrations(db); err != nil {
+		fmt.Printf("❌ failed to run migrations: %s\n", err.Error())
+		return
+	}
 }
 
 func InitMigrationTable(db *bun.DB) error {
@@ -40,11 +50,11 @@ func RunMigrations(db *bun.DB) error {
 	}
 
 	if group.IsZero() {
-		fmt.Printf("there are no new migrations to run (database is up to date)\n")
+		fmt.Printf("> ✅ there are no new migrations to run (database is up to date)\n")
 		return nil
 	}
 
-	fmt.Printf("migrated to %s\n", group)
+	fmt.Printf("> ✅ migrated to %s\n", group)
 	return nil
 
 }
