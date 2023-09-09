@@ -56,5 +56,4 @@ func RunMigrations(db *bun.DB) error {
 
 	fmt.Printf("> ✅ migrated to %s\n", group)
 	return nil
-
 }
