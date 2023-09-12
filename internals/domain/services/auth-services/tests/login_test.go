@@ -8,7 +8,8 @@ import (
 func TestLoginWithRightCredentials(t *testing.T) {
 
 	services := test_utils.SetupServices()
-	user := createTestUser(services)
+	user := test_utils.CreateTestUser(services)
+	defaultUser := test_utils.DefaultUser
 
 	result, err := services.AuthServices.Login(user.Email, defaultUser.Password, user.Realm.Code)
 
@@ -20,7 +21,8 @@ func TestLoginWithRightCredentials(t *testing.T) {
 func TestLoginWithWrongCredentials(t *testing.T) {
 
 	services := test_utils.SetupServices()
-	user := createTestUser(services)
+	user := test_utils.CreateTestUser(services)
+	defaultUser := test_utils.DefaultUser
 
 	result, err := services.AuthServices.Login(user.Email, "wrong-pwd", user.Realm.Code)
 

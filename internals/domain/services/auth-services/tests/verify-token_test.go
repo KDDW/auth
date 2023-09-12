@@ -21,7 +21,7 @@ func TestInvalidVerifyToken(t *testing.T) {
 func TestValidVerifyToken(t *testing.T) {
 
 	services := test_utils.SetupServices()
-	user := createTestUser(services)
+	user := test_utils.CreateTestUser(services)
 
 	token, _ := tokens.GenerateAccessToken(user.ID)
 

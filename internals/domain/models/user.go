@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/uptrace/bun"
@@ -23,7 +25,13 @@ type User struct {
 
 func (u *User) HashPassword() {
 
-	bytes, err := bcrypt.GenerateFromPassword([]byte(u.Password), 14)
+	cost := 14
+
+	if strings.ToLower(os.Getenv("APPENV")) == "test" {
+		cost = 1
+	}
+
+	bytes, err := bcrypt.GenerateFromPassword([]byte(u.Password), cost)
 	if err != nil {
 		fmt.Println("Cannot hash password")
 		panic(err)

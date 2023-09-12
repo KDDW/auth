@@ -5,6 +5,7 @@ import (
 	bun_repo "auth-service/internals/infra/repositories/bun-repo"
 	memory_repo "auth-service/internals/infra/repositories/memory-repo"
 	"os"
+	"strings"
 
 	"github.com/uptrace/bun"
 )
@@ -19,23 +20,17 @@ func GetRepositories(db *bun.DB) *Repositories {
 	var realmRepo ports.RealmRepository
 	var userRepo ports.UserRepository
 
-	dbType := os.Getenv("DB_TYPE")
-
-	if dbType == "" && db != nil {
-		dbType = "bun"
-	}
-
-	if db == nil {
-		dbType = "memory"
-	}
-
-	if dbType == "bun" {
-		realmRepo = bun_repo.NewBunRealmRepository(db)
-		userRepo = bun_repo.NewBunUserRepository(db)
-	} else {
+	if strings.ToLower(os.Getenv("ENV")) == "test" {
 		realmRepo = memory_repo.NewMemoryRealmRepository()
 		userRepo = memory_repo.NewMemoryUserRepository(realmRepo)
+		return &Repositories{
+			UserRepo:  userRepo,
+			RealmRepo: realmRepo,
+		}
 	}
+
+	realmRepo = bun_repo.NewBunRealmRepository(db)
+	userRepo = bun_repo.NewBunUserRepository(db)
 
 	return &Repositories{
 		UserRepo:  userRepo,

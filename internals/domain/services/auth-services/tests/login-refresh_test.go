@@ -8,17 +8,26 @@ import (
 func TestLoginRefreshToken(t *testing.T) {
 
 	services := test_utils.SetupServices()
-	user := createTestUser(services)
+	user := test_utils.CreateTestUser(services)
+	defaultUser := test_utils.DefaultUser
 
 	result, err := services.AuthServices.Login(user.Email, defaultUser.Password, user.Realm.Code)
 
-	if result == nil || err != nil {
+	if err != nil {
 		t.Errorf("Expected success, got %v", err)
+	}
+
+	if result == nil {
+		t.Errorf("Expected result != nil, got %v", result)
 	}
 
 	result, err = services.AuthServices.LoginRefreshToken(result.RefreshToken)
 
-	if result == nil || err != nil {
+	if err != nil {
 		t.Errorf("Expected success, got %v", err)
+	}
+
+	if result == nil {
+		t.Errorf("Expected result != nil, got %v", result)
 	}
 }

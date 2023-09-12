@@ -117,21 +117,13 @@ func (r *MemoryUserRepository) ListUsersRepo(dto *dtos.ListUsersDto) ([]models.U
 
 	recordsPerPage, err := strconv.Atoi(dto.RecordsPerPage)
 
-	if err != nil {
-		recordsPerPage = 10
-	}
-
-	if recordsPerPage <= 0 {
+	if err != nil || recordsPerPage <= 0 {
 		recordsPerPage = 10
 	}
 
 	page, err := strconv.Atoi(dto.Page)
 
-	if err != nil {
-		page = 1
-	}
-
-	if page <= 0 {
+	if err != nil || page <= 0 {
 		page = 1
 	}
 

@@ -15,7 +15,7 @@ var realmId int64 = 1
 
 func NewMemoryRealmRepository() *MemoryRealmRepository {
 	return &MemoryRealmRepository{
-		db: make([]models.Realm, 0),
+		db: []models.Realm{},
 	}
 }
 
@@ -56,7 +56,6 @@ func (m *MemoryRealmRepository) ListRealmsRepo(dto *dtos.ListRealmsDto) ([]model
 	}
 
 	return out, nil
-
 }
 
 func (m *MemoryRealmRepository) GetRealmByIdRepo(id int64) (*models.Realm, error) {

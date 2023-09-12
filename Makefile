@@ -2,6 +2,8 @@
 FIBER_MAIN=cmd/fiber/main.go
 MIGRATION_MAIN=cmd/bun/main.go
 
+TEST_FLAGS= --count=1
+
 all: run
 
 run:
@@ -27,4 +29,6 @@ docker-rm-api:
 
 
 test:
-	@go test ./... | grep -v "no test files"
+	@export ENV=test && go test $(TEST_FLAGS) ./...
+
+
